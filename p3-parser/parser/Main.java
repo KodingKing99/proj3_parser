@@ -26,7 +26,7 @@ public class Main {
     //------------------------------------------------------------
     System.out.println(tests.getSuccesses() + "/" + tests.getN()
             + " tests succeeded");
-//    return tests.getFailures();
+  //  return tests.getFailures();
 
   }
 
@@ -38,17 +38,17 @@ public class Main {
 //
 //      // Find the closure of [N -> ● X, $]
      Rule rule = grammar.findRule("N -> X");
-//      State state = Parser.computeClosure(new Item(rule, 0, Util.EOF), grammar);
-//      state.setName(0);
-//      tests.test(state, "0: [[N -> ● X, $]]");
+     State state = Parser.computeClosure(new Item(rule, 0, Util.EOF), grammar);
+     state.setName(0);
+     tests.test(state, "0: [[N -> ● X, $]]");
 //
 //
 //      // Find the closure of [N -> ● N X, $]
-//      rule = grammar.findRule("N -> N X");
-//      state = Parser.computeClosure(new Item(rule, 0, Util.EOF), grammar);
-//      state.setName(0);
+     rule = grammar.findRule("N -> N X");
+     state = Parser.computeClosure(new Item(rule, 0, Util.EOF), grammar);
+     state.setName(0);
 //      // [[N -> ● N X, $], [N -> ● N X, X], [N -> ● X, X]]
-//      tests.test(state.size(), 3);
+     tests.test(state.size(), 3);
 //
 //      // Find the start state
 //      Item head = new Item(grammar.startRule, 0, Util.EOF);

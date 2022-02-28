@@ -20,7 +20,18 @@ public class State implements Comparable<State> {
     public void setName(int name) {
         this.name = name;
     }
-
+    public void addItem(Item item) {
+        // add the item to the set
+        this.itemSet.add(item);
+        // add the item to the list
+        this.items.add(item);
+    }
+    public boolean contains(Item item) {
+        return this.itemSet.contains(item);
+    }
+    public int size(){
+        return this.itemSet.size();
+    }
     @Override
     public int hashCode() {
         int hash = 7;

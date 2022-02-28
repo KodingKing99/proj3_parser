@@ -55,7 +55,62 @@ public class Parser {
   // TODO: Implement this method.
   static public State computeClosure(Item I, Grammar grammar) {
     State closure = new State();
+    System.out.println("In closure. item is: " + I.toString());
+    System.out.println("State is: " + closure.toString());
+    // add the item to the state
+    // closure.addItem(I);
+    // System.out.println("State is: " + closure.toString());
+    // do the recursion to compute each items closure
+    computeClosureHelper(I, closure, grammar);
+    System.out.println("State is: " + closure.toString());
     return closure;
+  }
+  static private void computeClosureHelper(Item I, State closure, Grammar grammar){
+    // System.out.println(I.getNextSymbol());
+    // if item is not already in closure, add it
+    if(closure.contains(I)){
+      return;
+    }
+    closure.addItem(I);
+
+    // if next symbol is a terminal, return
+    if(grammar.isTerminal(I.getNextSymbol())){
+      return;
+    }
+    // If there are no production rules for that non terminal, return
+    if(!grammar.nt2rules.containsKey(I.getNextSymbol())){
+      return;
+    }
+    // else
+    ArrayList<Rule> ntProductions = grammar.nt2rules.get(I.getNextSymbol());
+    for(Rule production : ntProductions){
+      // System.out.println(production.toString());
+      ArrayList<Item> items = new ArrayList<>();
+      // Compute first of beta, a
+      if(I.getNextNextSymbol() != null){
+        // System.out.println("grammar next next symbol: " + I.getNextNextSymbol());
+        if(grammar.first.get(I.getNextNextSymbol()) != null){
+          
+          // System.out.println("First of "+ I.getNextNextSymbol() + " is " + grammar.first.get(I.getNextNextSymbol()));
+          for(String first : grammar.first.get(I.getNextNextSymbol())){
+            items.add(new Item(production, I.getDot(), first));
+          }
+          // item = new Item(production, I.getDot(), )
+        }
+        else{
+          items.add(new Item(production, I.getDot(), I.getLookahead()));
+        }
+      }
+      else{
+
+        items.add(new Item(production, I.getDot(), I.getLookahead()));
+      }
+      for(Item item : items){
+        computeClosureHelper(item, closure, grammar);
+      }
+      // Item myItem = new Item()
+    }
+    // System.out.println(ntProductions);
   }
 
   // TODO: Implement this method.
