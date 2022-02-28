@@ -32,12 +32,12 @@ public class Main {
 
   public static void testClosure(Tests tests) throws FileNotFoundException, IOException {
     // TODO: uncomment tests as you develop code
-//    {
+   {
 //      // TODO: Become familiar with the Grammar class. You will use it a lot.
-//      Grammar grammar = new Grammar("data/Simple.cfg");
+     Grammar grammar = new Grammar("data/Simple.cfg");
 //
 //      // Find the closure of [N -> ● X, $]
-//      Rule rule = grammar.findRule("N -> X");
+     Rule rule = grammar.findRule("N -> X");
 //      State state = Parser.computeClosure(new Item(rule, 0, Util.EOF), grammar);
 //      state.setName(0);
 //      tests.test(state, "0: [[N -> ● X, $]]");
@@ -90,7 +90,7 @@ public class Main {
 //      State state = Parser.computeClosure(head, grammar);
 //      // [[goal -> ● expr, $], [expr -> ● expr PLUS term, $], [expr -> ● expr PLUS term, PLUS], [expr -> ● expr MINUS term, PLUS], [expr -> ● expr PLUS term, MINUS], [expr -> ● term, PLUS], [term -> ● term MULTIPLY factor, PLUS], [term -> ● term MULTIPLY factor, MULTIPLY], [term -> ● term DIVIDE factor, MULTIPLY], [term -> ● term MULTIPLY factor, DIVIDE], [term -> ● factor, MULTIPLY], [factor -> ● OPAREN expr CPAREN, MULTIPLY], [factor -> ● INT, MULTIPLY], [factor -> ● FLOAT, MULTIPLY], [factor -> ● IDENTIFIER, MULTIPLY], [term -> ● term DIVIDE factor, DIVIDE], [term -> ● factor, DIVIDE], [factor -> ● OPAREN expr CPAREN, DIVIDE], [factor -> ● INT, DIVIDE], [factor -> ● FLOAT, DIVIDE], [factor -> ● IDENTIFIER, DIVIDE], [term -> ● term DIVIDE factor, PLUS], [term -> ● factor, PLUS], [factor -> ● OPAREN expr CPAREN, PLUS], [factor -> ● INT, PLUS], [factor -> ● FLOAT, PLUS], [factor -> ● IDENTIFIER, PLUS], [expr -> ● expr MINUS term, MINUS], [expr -> ● term, MINUS], [term -> ● term MULTIPLY factor, MINUS], [term -> ● term DIVIDE factor, MINUS], [term -> ● factor, MINUS], [factor -> ● OPAREN expr CPAREN, MINUS], [factor -> ● INT, MINUS], [factor -> ● FLOAT, MINUS], [factor -> ● IDENTIFIER, MINUS], [expr -> ● expr MINUS term, $], [expr -> ● term, $], [term -> ● term MULTIPLY factor, $], [term -> ● term DIVIDE factor, $], [term -> ● factor, $], [factor -> ● OPAREN expr CPAREN, $], [factor -> ● INT, $], [factor -> ● FLOAT, $], [factor -> ● IDENTIFIER, $]]
 //      tests.test(state.size(), 45);
-//    }
+   }
   }
 
   public static void testStates(Tests tests) throws FileNotFoundException, IOException {

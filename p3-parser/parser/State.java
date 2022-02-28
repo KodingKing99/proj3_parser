@@ -14,7 +14,7 @@ public class State implements Comparable<State> {
     }
 
     public State() {
-        this(0);
+        this(0); // Calls State(int name)
     }
 
     public void setName(int name) {
