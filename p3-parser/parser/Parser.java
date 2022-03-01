@@ -50,58 +50,21 @@ public class Parser {
       Item head = new Item(grammar.startRule, 0, Util.EOF);
       State state = computeClosure(head, grammar);
       states.addState(state);
-      // System.out.println("States: " + states.toString());
-      // String X = grammar.symbols.get(1);
-      // State newstate = GOTO(state, X, grammar);
-      // System.out.println("new state after goto: " + newstate.toString());
-      int count = 1;
-      // this.computeStates(0);
       List<State> newstates = new ArrayList<>();
-      // States newStates = new States();
-      // newStates.addState(state);
-      // this.computeStates(state, 1, grammar);
-      for(State mystate : this.states.getStates()){
-        // for(Item item : state.getItems()){
-          for(String symbol : grammar.symbols){
-            State newstate = GOTO(mystate, symbol, grammar);
-            if(newstate.size() > 0 && !this.states.contains(newstate)){
-              newstate.setName(count);
-              this.states.addState(newstate);
-              // states.addState(newstate);
-              newstates.add(newstate);
-              count++;
-            }
-            // if(GOTO(state, X, grammar))
-          }
-        // }
-      }
-      // System.out.println(states.toString());
+      this.computeStates(state, grammar);
+      System.out.println(states.toString());
     }
-    // this.computeStates()
   }
-  private void computeStates(State state, int count, Grammar grammar){
-    // for(State state : newStates.getStates()){
-      List<State> newStates = new ArrayList<>();
+  private void computeStates(State state, Grammar grammar){
       for(String symbol : grammar.symbols){
         State newstate = GOTO(state, symbol, grammar); 
         if(newstate.size() > 0 && !this.states.contains(newstate)){
-          newstate.setName(count);
+          newstate.setName(states.getNewName());
           this.states.addState(newstate);
-          newStates.add(newstate);
-          // computeStates(newstate, count + 1, grammar);
-          // states.addState(newstate);
-          // newstates.add(newstate);
-          count++;
+          computeStates(newstate, grammar);
         }
-        // else{
-        //   continue;
-        // } 
-      }
-      for(State nState : newStates){
-        computeStates(nState, nState.getName() + 1, grammar);
       }
     }
-  // }
 
   public States getStates() {
     return states;
@@ -163,19 +126,13 @@ public class Parser {
   static public State GOTO(State state, String X, Grammar grammar) {
     State ret = new State();
     for(Item item : state.getItems()){
-    System.out.println("X is : " + X);
-      System.out.println(item.toString());
-      System.out.println("Next symbol is: " + item.getNextSymbol());
-      if(item.getNextSymbol().equals(X)){
-        // System.out.println("X is equal to next symbol");
-        // State closure = computeClosure(item.advance(), grammar);
-        computeClosureHelper(item.advance(), ret, grammar);
-        // System.out.println("Computed closure for item " + item.toString() + " to be : " + closure.toString());
-        // computeClosureHelper(item.advance(), ret, grammar);
+      if(item.getNextSymbol() == null){
+        continue;
       }
-      // ret.addItem(item.advance());
+      if(item.getNextSymbol().equals(X)){
+        computeClosureHelper(item.advance(), ret, grammar);
+      }
     }
-    // computeClosure(I, grammar)
     return ret;
   }
 

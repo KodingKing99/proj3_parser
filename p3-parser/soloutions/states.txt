@@ -30,6 +30,22 @@ R4 pair -> OPAREN CPAREN
 11: [[pair -> OPAREN CPAREN ●, CPAREN], [pair -> OPAREN CPAREN ●, OPAREN]]
 12: [[pair -> OPAREN CPAREN ●, $], [pair -> OPAREN CPAREN ●, OPAREN]]
 13: [[list -> pair ●, OPAREN], [list -> pair ●, $]]
+
+What I got
+0: [[goal -> ● list, $], [list -> ● list pair, $], [list -> ● list pair, OPAREN], [list -> ● pair, OPAREN], [pair -> ● OPAREN list CPAREN, OPAREN], [pair -> ● OPAREN CPAREN, OPAREN], [list -> ● pair, $], [pair -> ● OPAREN list CPAREN, $], [pair -> ● OPAREN CPAREN, $]]
+1: [[goal -> list ●, $], [list -> list ● pair, $], [pair -> ● OPAREN list CPAREN, $], [pair -> ● OPAREN CPAREN, $], [list -> list ● pair, OPAREN], [pair -> ● OPAREN list CPAREN, OPAREN], [pair -> ● OPAREN CPAREN, OPAREN]]
+2: [[list -> list pair ●, $], [list -> list pair ●, OPAREN]]
+3: [[pair -> OPAREN ● list CPAREN, $], [list -> ● list pair, CPAREN], [list -> ● list pair, OPAREN], [list -> ● pair, OPAREN], [pair -> ● OPAREN list CPAREN, OPAREN], [pair -> ● OPAREN CPAREN, OPAREN], [list -> ● pair, CPAREN], [pair -> ● OPAREN list CPAREN, CPAREN], [pair -> ● OPAREN CPAREN, CPAREN], [pair -> OPAREN ● CPAREN, $], [pair -> OPAREN ● list CPAREN, OPAREN], [pair -> OPAREN ● CPAREN, OPAREN]]
+4: [[pair -> OPAREN list ● CPAREN, $], [list -> list ● pair, CPAREN], [pair -> ● OPAREN list CPAREN, CPAREN], [pair -> ● OPAREN CPAREN, CPAREN], [list -> list ● pair, OPAREN], [pair -> ● OPAREN list CPAREN, OPAREN], [pair -> ● OPAREN CPAREN, OPAREN], [pair -> OPAREN list ● CPAREN, OPAREN]]
+5: [[list -> list pair ●, CPAREN], [list -> list pair ●, OPAREN]]
+6: [[pair -> OPAREN list CPAREN ●, $], [pair -> OPAREN list CPAREN ●, OPAREN]]
+7: [[pair -> OPAREN ● list CPAREN, CPAREN], [list -> ● list pair, CPAREN], [list -> ● list pair, OPAREN], [list -> ● pair, OPAREN], [pair -> ● OPAREN list CPAREN, OPAREN], [pair -> ● OPAREN CPAREN, OPAREN], [list -> ● pair, CPAREN], [pair -> ● OPAREN list CPAREN, CPAREN], [pair -> ● OPAREN CPAREN, CPAREN], [pair -> OPAREN ● CPAREN, CPAREN], [pair -> OPAREN ● list CPAREN, OPAREN], [pair -> OPAREN ● CPAREN, OPAREN]]
+8: [[pair -> OPAREN list ● CPAREN, CPAREN], [list -> list ● pair, CPAREN], [pair -> ● OPAREN list CPAREN, CPAREN], [pair -> ● OPAREN CPAREN, CPAREN], [list -> list ● pair, OPAREN], [pair -> ● OPAREN list CPAREN, OPAREN], [pair -> ● OPAREN CPAREN, OPAREN], [pair -> OPAREN list ● CPAREN, OPAREN]]
+9: [[pair -> OPAREN list CPAREN ●, CPAREN], [pair -> OPAREN list CPAREN ●, OPAREN]]
+10: [[list -> pair ●, OPAREN], [list -> pair ●, CPAREN]]
+11: [[pair -> OPAREN CPAREN ●, CPAREN], [pair -> OPAREN CPAREN ●, OPAREN]]
+12: [[pair -> OPAREN CPAREN ●, $], [pair -> OPAREN CPAREN ●, OPAREN]]
+13: [[list -> pair ●, OPAREN], [list -> pair ●, $]]
 Reading grammar data/Expr.cfg
 
 Rules

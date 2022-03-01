@@ -25,6 +25,9 @@ public class States {
     public List<State> getStates(){
         return new ArrayList<>(this.states);
     }
+    public int getNewName(){
+        return stateSet.size();
+    }
     public boolean contains(State state){
         return this.stateSet.contains(state);
     }
