@@ -20,6 +20,9 @@ public class State implements Comparable<State> {
     public void setName(int name) {
         this.name = name;
     }
+    public int getName(){
+        return this.name;
+    }
     public void addItem(Item item) {
         // add the item to the set
         this.itemSet.add(item);

@@ -55,23 +55,53 @@ public class Parser {
       // State newstate = GOTO(state, X, grammar);
       // System.out.println("new state after goto: " + newstate.toString());
       int count = 1;
-      for(State mystate : states.getStates()){
+      // this.computeStates(0);
+      List<State> newstates = new ArrayList<>();
+      // States newStates = new States();
+      // newStates.addState(state);
+      // this.computeStates(state, 1, grammar);
+      for(State mystate : this.states.getStates()){
         // for(Item item : state.getItems()){
           for(String symbol : grammar.symbols){
             State newstate = GOTO(mystate, symbol, grammar);
-            if(newstate.size() > 0 && !states.contains(newstate)){
+            if(newstate.size() > 0 && !this.states.contains(newstate)){
               newstate.setName(count);
-              states.addState(newstate);
+              this.states.addState(newstate);
+              // states.addState(newstate);
+              newstates.add(newstate);
               count++;
             }
             // if(GOTO(state, X, grammar))
           }
         // }
       }
-      System.out.println(states.toString());
+      // System.out.println(states.toString());
     }
     // this.computeStates()
   }
+  private void computeStates(State state, int count, Grammar grammar){
+    // for(State state : newStates.getStates()){
+      List<State> newStates = new ArrayList<>();
+      for(String symbol : grammar.symbols){
+        State newstate = GOTO(state, symbol, grammar); 
+        if(newstate.size() > 0 && !this.states.contains(newstate)){
+          newstate.setName(count);
+          this.states.addState(newstate);
+          newStates.add(newstate);
+          // computeStates(newstate, count + 1, grammar);
+          // states.addState(newstate);
+          // newstates.add(newstate);
+          count++;
+        }
+        // else{
+        //   continue;
+        // } 
+      }
+      for(State nState : newStates){
+        computeStates(nState, nState.getName() + 1, grammar);
+      }
+    }
+  // }
 
   public States getStates() {
     return states;
