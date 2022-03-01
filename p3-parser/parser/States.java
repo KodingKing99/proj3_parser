@@ -18,7 +18,19 @@ public class States {
         }
         return states.get(name);
     }
-
+    public void addState(State state){
+        this.stateSet.add(state);
+        this.states.add(state);
+    }
+    public List<State> getStates(){
+        return new ArrayList<>(this.states);
+    }
+    public boolean contains(State state){
+        return this.stateSet.contains(state);
+    }
+    public int size(){
+        return stateSet.size();
+    }
     @Override
     public String toString() {
         return states.toString();

@@ -46,6 +46,31 @@ public class Parser {
     states = new States();
 
     // TODO: Call methods to compute the states and parsing tables here.
+    {
+      Item head = new Item(grammar.startRule, 0, Util.EOF);
+      State state = computeClosure(head, grammar);
+      states.addState(state);
+      // System.out.println("States: " + states.toString());
+      // String X = grammar.symbols.get(1);
+      // State newstate = GOTO(state, X, grammar);
+      // System.out.println("new state after goto: " + newstate.toString());
+      int count = 1;
+      for(State mystate : states.getStates()){
+        // for(Item item : state.getItems()){
+          for(String symbol : grammar.symbols){
+            State newstate = GOTO(mystate, symbol, grammar);
+            if(newstate.size() > 0 && !states.contains(newstate)){
+              newstate.setName(count);
+              states.addState(newstate);
+              count++;
+            }
+            // if(GOTO(state, X, grammar))
+          }
+        // }
+      }
+      System.out.println(states.toString());
+    }
+    // this.computeStates()
   }
 
   public States getStates() {
@@ -55,18 +80,12 @@ public class Parser {
   // TODO: Implement this method.
   static public State computeClosure(Item I, Grammar grammar) {
     State closure = new State();
-    // System.out.println("In closure. item is: " + I.toString());
-    // System.out.println("State is: " + closure.toString());
-    // add the item to the state
-    // closure.addItem(I);
-    // System.out.println("State is: " + closure.toString());
     // do the recursion to compute each items closure
     computeClosureHelper(I, closure, grammar);
     System.out.println("Post closure. state is: " + closure.toString());
     return closure;
   }
   static private void computeClosureHelper(Item I, State closure, Grammar grammar){
-    // System.out.println(I.getNextSymbol());
     // if item is not already in closure, add it
     if(closure.contains(I)){
       return;
@@ -84,18 +103,15 @@ public class Parser {
     // else
     ArrayList<Rule> ntProductions = grammar.nt2rules.get(I.getNextSymbol());
     for(Rule production : ntProductions){
-      // System.out.println(production.toString());
       ArrayList<Item> items = new ArrayList<>();
       // Compute first of beta, a
       if(I.getNextNextSymbol() != null){
-        // System.out.println("grammar next next symbol: " + I.getNextNextSymbol());
+
         if(grammar.first.get(I.getNextNextSymbol()) != null){
-          
-          // System.out.println("First of "+ I.getNextNextSymbol() + " is " + grammar.first.get(I.getNextNextSymbol()));
+
           for(String first : grammar.first.get(I.getNextNextSymbol())){
             items.add(new Item(production, 0, first));
           }
-          // item = new Item(production, I.getDot(), )
         }
         else{
           items.add(new Item(production, 0, I.getLookahead()));
@@ -108,9 +124,7 @@ public class Parser {
       for(Item item : items){
         computeClosureHelper(item, closure, grammar);
       }
-      // Item myItem = new Item()
     }
-    // System.out.println(ntProductions);
   }
 
   // TODO: Implement this method.
@@ -118,6 +132,20 @@ public class Parser {
   //   the given state on the symbol X.
   static public State GOTO(State state, String X, Grammar grammar) {
     State ret = new State();
+    for(Item item : state.getItems()){
+    System.out.println("X is : " + X);
+      System.out.println(item.toString());
+      System.out.println("Next symbol is: " + item.getNextSymbol());
+      if(item.getNextSymbol().equals(X)){
+        // System.out.println("X is equal to next symbol");
+        // State closure = computeClosure(item.advance(), grammar);
+        computeClosureHelper(item.advance(), ret, grammar);
+        // System.out.println("Computed closure for item " + item.toString() + " to be : " + closure.toString());
+        // computeClosureHelper(item.advance(), ret, grammar);
+      }
+      // ret.addItem(item.advance());
+    }
+    // computeClosure(I, grammar)
     return ret;
   }
 

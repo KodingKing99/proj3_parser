@@ -99,11 +99,11 @@ public class Main {
   }
 
   public static void testStates(Tests tests) throws FileNotFoundException, IOException {
-//    {
-//      Parser parser = new Parser("data/Simple.cfg");
-//      States states = parser.getStates();
-//      tests.test(states.size(), 4);
-//    }
+   {
+     Parser parser = new Parser("data/Simple.cfg");
+     States states = parser.getStates();
+     tests.test(states.size(), 4);
+   }
 //    {
 //      Parser parser = new Parser("data/Paren.cfg");
 //      States states = parser.getStates();

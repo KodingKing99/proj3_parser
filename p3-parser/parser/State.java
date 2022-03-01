@@ -26,6 +26,9 @@ public class State implements Comparable<State> {
         // add the item to the list
         this.items.add(item);
     }
+    public List<Item> getItems(){
+        return new ArrayList<>(this.items);
+    }
     public boolean contains(Item item) {
         return this.itemSet.contains(item);
     }
