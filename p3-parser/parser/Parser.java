@@ -55,14 +55,14 @@ public class Parser {
   // TODO: Implement this method.
   static public State computeClosure(Item I, Grammar grammar) {
     State closure = new State();
-    System.out.println("In closure. item is: " + I.toString());
-    System.out.println("State is: " + closure.toString());
+    // System.out.println("In closure. item is: " + I.toString());
+    // System.out.println("State is: " + closure.toString());
     // add the item to the state
     // closure.addItem(I);
     // System.out.println("State is: " + closure.toString());
     // do the recursion to compute each items closure
     computeClosureHelper(I, closure, grammar);
-    System.out.println("State is: " + closure.toString());
+    System.out.println("Post closure. state is: " + closure.toString());
     return closure;
   }
   static private void computeClosureHelper(Item I, State closure, Grammar grammar){
@@ -93,17 +93,17 @@ public class Parser {
           
           // System.out.println("First of "+ I.getNextNextSymbol() + " is " + grammar.first.get(I.getNextNextSymbol()));
           for(String first : grammar.first.get(I.getNextNextSymbol())){
-            items.add(new Item(production, I.getDot(), first));
+            items.add(new Item(production, 0, first));
           }
           // item = new Item(production, I.getDot(), )
         }
         else{
-          items.add(new Item(production, I.getDot(), I.getLookahead()));
+          items.add(new Item(production, 0, I.getLookahead()));
         }
       }
       else{
 
-        items.add(new Item(production, I.getDot(), I.getLookahead()));
+        items.add(new Item(production, 0, I.getLookahead()));
       }
       for(Item item : items){
         computeClosureHelper(item, closure, grammar);
