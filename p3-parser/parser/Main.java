@@ -109,11 +109,11 @@ public class Main {
      States states = parser.getStates();
      tests.test(states.size(), 14);
    }
-   {
-     Parser parser = new Parser("data/Expr.cfg");
-     States states = parser.getStates();
-     tests.test(states.size(), 34);
-   }
+  //  {
+  //    Parser parser = new Parser("data/Expr.cfg");
+  //    States states = parser.getStates();
+  //    tests.test(states.size(), 34);
+  //  }
   }
 
   public static void testTables(Tests tests) throws FileNotFoundException, IOException {

@@ -50,9 +50,10 @@ public class Parser {
       Item head = new Item(grammar.startRule, 0, Util.EOF);
       State state = computeClosure(head, grammar);
       states.addState(state);
-      List<State> newstates = new ArrayList<>();
       this.computeStates(state, grammar);
       System.out.println(states.toString());
+      System.out.println(this.gotoTableToString());
+      // this.computeTables(grammar);
     }
   }
   private void computeStates(State state, Grammar grammar){
@@ -61,11 +62,27 @@ public class Parser {
         if(newstate.size() > 0 && !this.states.contains(newstate)){
           newstate.setName(states.getNewName());
           this.states.addState(newstate);
+          // Add entry to goto table
+          if(this.gotoTable.containsKey(state.getName())){
+            this.gotoTable.get(state.getName()).put(symbol, newstate.getName());
+          }
+          else{
+            HashMap<String, Integer> mMap = new HashMap<>();
+            mMap.put(symbol, newstate.getName());
+            this.gotoTable.put(state.getName(), mMap);
+          }
           computeStates(newstate, grammar);
         }
       }
     }
+  
+  // private void computeTables(Grammar grammar){
+  //   for(State state : this.states.getStates()){
+  //     for(String symbol : grammar.symbols){
 
+  //     }
+  //   }
+  // }
   public States getStates() {
     return states;
   }
@@ -75,7 +92,7 @@ public class Parser {
     State closure = new State();
     // do the recursion to compute each items closure
     computeClosureHelper(I, closure, grammar);
-    System.out.println("Post closure. state is: " + closure.toString());
+    // System.out.println("Post closure. state is: " + closure.toString());
     return closure;
   }
   static private void computeClosureHelper(Item I, State closure, Grammar grammar){
@@ -155,6 +172,17 @@ public class Parser {
   // help you debug if you can format it nicely.
   public String gotoTableToString() {
     StringBuilder builder = new StringBuilder();
+    for(Integer key : this.gotoTable.keySet()){
+      builder.append("GOTO: ");
+      builder.append(String.format("%4s", key));
+      for(String symbol : this.gotoTable.get(key).keySet()){
+        String str = "| on " + symbol + " -> ";
+        builder.append(String.format("%15s", str));
+        builder.append(this.gotoTable.get(key).get(symbol));
+        builder.append(" |");
+      }
+      builder.append("\n");
+    }
     return builder.toString();
   }
 
