@@ -18,6 +18,14 @@ public class States {
         }
         return states.get(name);
     }
+    public State getState(State state){
+        for(State mState : this.states){
+            if(mState.equals(state)){
+                return mState;
+            }
+        }
+        return null;
+    }
     public void addState(State state){
         this.stateSet.add(state);
         this.states.add(state);
@@ -28,6 +36,7 @@ public class States {
     public int getNewName(){
         return stateSet.size();
     }
+    
     public boolean contains(State state){
         return this.stateSet.contains(state);
     }

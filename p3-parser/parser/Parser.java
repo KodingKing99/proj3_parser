@@ -39,10 +39,12 @@ public class Parser {
    */
   private final HashMap<Integer, HashMap<String, Integer>> gotoTable;
 
+  private final HashMap<String, Rule> reductions;
+
   public Parser(String grammarFilename) throws IOException {
     actionTable = new HashMap<>();
     gotoTable = new HashMap<>();
-
+    reductions = new HashMap<>();
     grammar = new Grammar(grammarFilename);
 
     states = new States();
@@ -55,6 +57,7 @@ public class Parser {
       this.computeStates(state, grammar);
       // this.computeActionTable(grammar);
       System.out.println(states.toString());
+      this.computeTables(grammar);
       System.out.println(this.actionTableToString());
       System.out.println(this.gotoTableToString());
       // this.computeTables(grammar);
@@ -62,7 +65,10 @@ public class Parser {
   }
   private void computeStates(State state, Grammar grammar){
       for(String symbol : grammar.symbols){
-        State newstate = GOTO(state, symbol, grammar); 
+        State newstate = GOTO(state, symbol, grammar);
+        // if(newstate == null){
+        //   continue;
+        // }
         if(newstate.size() > 0 && !this.states.contains(newstate)){
           newstate.setName(states.getNewName());
           this.states.addState(newstate);
@@ -91,30 +97,74 @@ public class Parser {
         }
       }
     }
-  // private void computeActionTable(Grammar grammar){
-  //   for(State state : this.states.getStates()){
-  //     for(String symbol : grammar.symbols){
-  //       // There is a transition
-  //       if(this.gotoTable.get(state.getName()).containsKey(symbol)){
-  //         HashMap<String, Action> mMap = new HashMap<>();
-  //         State gotoState = this.states.getState(this.gotoTable.get(state.getName()).get(symbol));
-  //         // for(Item item : state.getItems()){
-  //         //   // if item is of the form [S' -> S dot , $]
-  //         //   // did this by checking if item equals 
-  //         //   if(item.equals(this.states.getState(0).getItems().get(0).advance())){
-  //         //     mMap.put(symbol, Action.createAccept());
-  //         //   }
-  //         // }
-  //         // I don't really care about non terminals or terminals. more where the dot is
-  //         // if(state.contains())
-  //         // if(grammar.nonterminals.contains(symbol)){
-  //         //   mMap = new HashMap<>();
-  //         //   mMap.put(symbol, Action.createShift(state.getName()));
-  //         // }
-  //       }
-  //     }
-  //   }
-  // }
+  private void computeTables(Grammar grammar){
+    for(State state : this.states.getStates()){
+      for(String symbol : grammar.symbols){
+        State newstate = GOTO(state, symbol, grammar);
+        // if(newstate == null){
+        //   // do stuff for reductions
+        //   continue;
+        // }
+        if(newstate.size() > 0){
+          // state.
+          if(states.contains(newstate)){
+            
+            State actState = states.getState(newstate);
+            if(actState != null){
+              if(grammar.nonterminals.contains(symbol)){
+                if(this.gotoTable.containsKey(state.getName())){
+                this.gotoTable.get(state.getName()).put(symbol, actState.getName());
+                }
+                else{
+                  HashMap<String, Integer> mMap = new HashMap<>();
+                  mMap.put(symbol, actState.getName());
+                  this.gotoTable.put(state.getName(), mMap);
+                }
+              } 
+              else if( grammar.terminals.contains(symbol)){
+                if(this.actionTable.containsKey(state.getName())){
+                  this.actionTable.get(state.getName()).put(symbol, Action.createShift(actState.getName()));
+                  }
+                  else{
+                    HashMap<String, Action> mMap = new HashMap<>();
+                    mMap.put(symbol, Action.createShift(actState.getName()));
+                    this.actionTable.put(state.getName(), mMap);
+                  }
+              }   
+            }
+          }
+        }
+      }
+      // Compute reductions
+      for(Item item : state.getItems()){
+        if(item.getNextSymbol() == null){
+          // System.out.println("In compute tables. Reduction item is: " + item.toString());
+          // System.out.println("Rule is: " + item.getRule().toString());
+          if(item.getRule().equals(grammar.rules.get(0))){
+            // this.actionTable.get(state.getName())
+            if(this.actionTable.containsKey(state.getName())){
+              this.actionTable.get(state.getName()).put(item.getA(), Action.createAccept());              
+            }
+            else{
+              HashMap<String, Action> mMap = new HashMap<>();
+              mMap.put(item.getA(), Action.createAccept());
+              this.actionTable.put(state.getName(), mMap);
+            }
+          }
+          else{
+            if(this.actionTable.containsKey(state.getName())){
+              this.actionTable.get(state.getName()).put(item.getA(), Action.createReduce(item.getRule()));              
+            }
+            else{
+              HashMap<String, Action> mMap = new HashMap<>();
+              mMap.put(item.getA(), Action.createReduce(item.getRule()));
+              this.actionTable.put(state.getName(), mMap);
+            } 
+          }
+        }
+      }
+    }
+  }
 
   public States getStates() {
     return states;
@@ -177,6 +227,11 @@ public class Parser {
     State ret = new State();
     for(Item item : state.getItems()){
       if(item.getNextSymbol() == null){
+        // List<Rule> ntrules = grammar.nt2rules.get(X);
+        // grammar.
+        // System.out.println("In goto. Reduction item is: " + item.toString());
+        // System.out.println("Rule is: " + item.getRule().toString());
+
         continue;
       }
       if(item.getNextSymbol().equals(X)){
