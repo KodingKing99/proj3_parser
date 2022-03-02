@@ -36,7 +36,11 @@ public class States {
     }
     @Override
     public String toString() {
-        return states.toString();
+        StringBuilder str = new StringBuilder();
+        for(State state : this.states){
+            str.append(state.toString() + "\n");
+        }
+        return str.toString();
     }
 
 }

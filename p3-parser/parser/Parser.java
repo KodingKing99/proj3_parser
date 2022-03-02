@@ -11,6 +11,8 @@ import lexer.ExprLexer;
 import lexer.ParenLexer;
 import lexer.SimpleLexer;
 import lexer.TinyLexer;
+import parser.Action.Act;
+
 import org.antlr.v4.runtime.*;
 
 /**
@@ -51,6 +53,7 @@ public class Parser {
       State state = computeClosure(head, grammar);
       states.addState(state);
       this.computeStates(state, grammar);
+      // this.computeActionTable(grammar);
       System.out.println(states.toString());
       System.out.println(this.gotoTableToString());
       // this.computeTables(grammar);
@@ -75,14 +78,31 @@ public class Parser {
         }
       }
     }
-  
-  // private void computeTables(Grammar grammar){
+  // private void computeActionTable(Grammar grammar){
   //   for(State state : this.states.getStates()){
   //     for(String symbol : grammar.symbols){
-
+  //       // There is a transition
+  //       if(this.gotoTable.get(state.getName()).containsKey(symbol)){
+  //         HashMap<String, Action> mMap = new HashMap<>();
+  //         State gotoState = this.states.getState(this.gotoTable.get(state.getName()).get(symbol));
+  //         // for(Item item : state.getItems()){
+  //         //   // if item is of the form [S' -> S dot , $]
+  //         //   // did this by checking if item equals 
+  //         //   if(item.equals(this.states.getState(0).getItems().get(0).advance())){
+  //         //     mMap.put(symbol, Action.createAccept());
+  //         //   }
+  //         // }
+  //         // I don't really care about non terminals or terminals. more where the dot is
+  //         // if(state.contains())
+  //         // if(grammar.nonterminals.contains(symbol)){
+  //         //   mMap = new HashMap<>();
+  //         //   mMap.put(symbol, Action.createShift(state.getName()));
+  //         // }
+  //       }
   //     }
   //   }
   // }
+
   public States getStates() {
     return states;
   }
