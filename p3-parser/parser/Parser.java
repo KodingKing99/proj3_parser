@@ -55,6 +55,7 @@ public class Parser {
       this.computeStates(state, grammar);
       // this.computeActionTable(grammar);
       System.out.println(states.toString());
+      System.out.println(this.actionTableToString());
       System.out.println(this.gotoTableToString());
       // this.computeTables(grammar);
     }
@@ -65,15 +66,27 @@ public class Parser {
         if(newstate.size() > 0 && !this.states.contains(newstate)){
           newstate.setName(states.getNewName());
           this.states.addState(newstate);
-          // Add entry to goto table
-          if(this.gotoTable.containsKey(state.getName())){
-            this.gotoTable.get(state.getName()).put(symbol, newstate.getName());
-          }
-          else{
-            HashMap<String, Integer> mMap = new HashMap<>();
-            mMap.put(symbol, newstate.getName());
-            this.gotoTable.put(state.getName(), mMap);
-          }
+          // Add entry to tables if it is a shift or a goto
+          // if(grammar.nonterminals.contains(symbol)){
+          //   if(this.gotoTable.containsKey(state.getName())){
+          //   this.gotoTable.get(state.getName()).put(symbol, newstate.getName());
+          //   }
+          //   else{
+          //     HashMap<String, Integer> mMap = new HashMap<>();
+          //     mMap.put(symbol, newstate.getName());
+          //     this.gotoTable.put(state.getName(), mMap);
+          //   }
+          // } 
+          // else if( grammar.terminals.contains(symbol)){
+          //   if(this.actionTable.containsKey(state.getName())){
+          //     this.actionTable.get(state.getName()).put(symbol, Action.createShift(newstate.getName()));
+          //     }
+          //     else{
+          //       HashMap<String, Action> mMap = new HashMap<>();
+          //       mMap.put(symbol, Action.createShift(newstate.getName()));
+          //       this.actionTable.put(state.getName(), mMap);
+          //     }
+          // } 
           computeStates(newstate, grammar);
         }
       }
@@ -181,6 +194,17 @@ public class Parser {
   // help you debug if you can format it nicely.
   public String actionTableToString() {
     StringBuilder builder = new StringBuilder();
+    for(Integer key : this.actionTable.keySet()){
+      builder.append("Action: ");
+      builder.append(String.format("%4s", key));
+      for(String symbol : this.actionTable.get(key).keySet()){
+        String str = "| on " + symbol + " -> ";
+        builder.append(String.format("%15s", str));
+        builder.append(this.actionTable.get(key).get(symbol).toString());
+        builder.append(" |");
+      }
+      builder.append("\n");
+    }
     return builder.toString();
   }
 
