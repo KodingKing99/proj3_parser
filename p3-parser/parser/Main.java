@@ -109,35 +109,35 @@ public class Main {
      States states = parser.getStates();
      tests.test(states.size(), 14);
    }
-  //  {
-  //    Parser parser = new Parser("data/Expr.cfg");
-  //    States states = parser.getStates();
-  //    tests.test(states.size(), 34);
-  //  }
+   {
+     Parser parser = new Parser("data/Expr.cfg");
+     States states = parser.getStates();
+     tests.test(states.size(), 34);
+   }
   }
 
   public static void testTables(Tests tests) throws FileNotFoundException, IOException {
-//    {
-//      Parser parser = new Parser("data/Simple.cfg");
-//      String actionTable = parser.actionTableToString();
-//      tests.test(countMatches(actionTable, 'S'), 2); // 2 shifts
-//      tests.test(countMatches(actionTable, 'R'), 4); // 4 reduces
-//      tests.test(countMatches(actionTable, "acc"), 1); // 1 accept
-//    }
-//    {
-//      Parser parser = new Parser("data/Paren.cfg");
-//      String actionTable = parser.actionTableToString();
-//      tests.test(countMatches(actionTable, 'S'), 10); // 10 shifts
-//      tests.test(countMatches(actionTable, 'R'), 18); // 18 reduces (2 of the Rs are in the header)
-//      tests.test(countMatches(actionTable, "acc"), 1); // 1 accept
-//    }
-//    {
-//      Parser parser = new Parser("data/Expr.cfg");
-//      String actionTable = parser.actionTableToString();
-//      tests.test(countMatches(actionTable, 'S'), 66);
-//      tests.test(countMatches(actionTable, 'R'), 91);
-//      tests.test(countMatches(actionTable, "acc"), 1);
-//    }
+   {
+     Parser parser = new Parser("data/Simple.cfg");
+     String actionTable = parser.actionTableToString();
+     tests.test(countMatches(actionTable, 'S'), 2); // 2 shifts
+     tests.test(countMatches(actionTable, 'R'), 4); // 4 reduces
+     tests.test(countMatches(actionTable, "acc"), 1); // 1 accept
+   }
+   {
+     Parser parser = new Parser("data/Paren.cfg");
+     String actionTable = parser.actionTableToString();
+     tests.test(countMatches(actionTable, 'S'), 10); // 10 shifts
+     tests.test(countMatches(actionTable, 'R'), 18); // 18 reduces (2 of the Rs are in the header)
+     tests.test(countMatches(actionTable, "acc"), 1); // 1 accept
+   }
+   {
+     Parser parser = new Parser("data/Expr.cfg");
+     String actionTable = parser.actionTableToString();
+     tests.test(countMatches(actionTable, 'S'), 66);
+     tests.test(countMatches(actionTable, 'R'), 91);
+     tests.test(countMatches(actionTable, "acc"), 1);
+   }
   }
 
   public static void testParser(Tests tests) throws FileNotFoundException, IOException {

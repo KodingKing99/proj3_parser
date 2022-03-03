@@ -249,16 +249,32 @@ public class Parser {
   // help you debug if you can format it nicely.
   public String actionTableToString() {
     StringBuilder builder = new StringBuilder();
-    for(Integer key : this.actionTable.keySet()){
-      builder.append("Action: ");
-      builder.append(String.format("%4s", key));
-      for(String symbol : this.actionTable.get(key).keySet()){
-        String str = "| on " + symbol + " -> ";
-        builder.append(String.format("%15s", str));
-        builder.append(this.actionTable.get(key).get(symbol).toString());
-        builder.append(" |");
+    builder.append("------ Action Table ------");
+    builder.append("\n\n");
+    builder.append("state");
+    for(String symbol : this.grammar.terminals){
+      builder.append(String.format("%8s", symbol));
+    }
+    builder.append(String.format("%8s", "$"));
+    builder.append("\n\n");
+    for(State state : this.states.getStates()){
+      builder.append(String.format("%4s", state.getName()));
+      for(String symbol : this.grammar.terminals){
+        if(this.actionTable.containsKey(state.getName())){
+          if(this.actionTable.get(state.getName()).containsKey(symbol)){
+            builder.append(String.format("%10s", this.actionTable.get(state.getName()).get(symbol).toString()));
+          }
+          else{
+            builder.append(String.format("%8s", " "));
+          }
+        }
       }
-      builder.append("\n");
+      if(this.actionTable.containsKey(state.getName())){
+        if(this.actionTable.get(state.getName()).containsKey("$")){
+          builder.append(String.format("%8s", this.actionTable.get(state.getName()).get("$")));
+        }
+      }
+      builder.append("\n\n");
     }
     return builder.toString();
   }
@@ -271,16 +287,26 @@ public class Parser {
   // help you debug if you can format it nicely.
   public String gotoTableToString() {
     StringBuilder builder = new StringBuilder();
-    for(Integer key : this.gotoTable.keySet()){
-      builder.append("GOTO: ");
-      builder.append(String.format("%4s", key));
-      for(String symbol : this.gotoTable.get(key).keySet()){
-        String str = "| on " + symbol + " -> ";
-        builder.append(String.format("%15s", str));
-        builder.append(this.gotoTable.get(key).get(symbol));
-        builder.append(" |");
+    builder.append("------ GOTO Table ------");
+    builder.append("\n\n");
+    builder.append("state");
+    for(String symbol : this.grammar.nonterminals){
+      builder.append(String.format("%8s", symbol));
+    }
+    builder.append("\n\n");
+    for(State state : this.states.getStates()){
+      builder.append(String.format("%4s", state.getName()));
+      for(String symbol : this.grammar.nonterminals){
+        if(this.gotoTable.containsKey(state.getName())){
+          if(this.gotoTable.get(state.getName()).containsKey(symbol)){
+            builder.append(String.format("%9s", this.gotoTable.get(state.getName()).get(symbol).toString()));
+          }
+          else{
+            builder.append(String.format("%8s", " "));
+          }
+        }
       }
-      builder.append("\n");
+      builder.append("\n\n");
     }
     return builder.toString();
   }
